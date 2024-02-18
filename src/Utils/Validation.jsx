@@ -1,7 +1,11 @@
 
-const validation = (email,password,confirmPassword) => {
-    if(!email || !password || !confirmPassword){
-        return "all fields are required"
+const validation = (email,password,confirmPassword,isSignUp) => {
+    if (!email || !password) {
+        return "Email and password are required";
+    }
+
+    if (isSignUp && !confirmPassword) {
+        return "Confirm password is required";
     }
 
     const isemail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
@@ -11,7 +15,7 @@ const validation = (email,password,confirmPassword) => {
 
     if(!ispassword) return "Password require atleast 1 upper and lower letter,number and special character"
 
-    if(password !== confirmPassword) return "password do not match"
+    if(isSignUp && password !== confirmPassword) return "password do not match"
 
     return null
 
