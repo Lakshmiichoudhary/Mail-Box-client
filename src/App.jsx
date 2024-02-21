@@ -1,12 +1,15 @@
 import React from 'react'
-import MainPages from './Components/Pages/MainPages'
+import MainPage from './Components/Pages/MainPage'
+import { Provider } from 'react-redux'
+import appStore from './Store/Store'
+
 
 const App = () => {
 
   return (
-    <div>
-        <MainPages />
-    </div>
+    <Provider store={appStore}>
+        <MainPage />
+    </Provider>
   )
 }
 

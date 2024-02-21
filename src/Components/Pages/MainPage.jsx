@@ -1,13 +1,18 @@
 import React from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Login from '../Auth/Login'
+import MailBoxPage from './MailBoxPage'
 
-const MainPages = () => {
+const MainPage = () => {
 
     const appRouter = createBrowserRouter([
         {
             path : "/",
             element : <Login />
+        },
+        {
+          path : '/mailBox',
+          element : <MailBoxPage />
         }
 
     ])
@@ -19,4 +24,4 @@ const MainPages = () => {
   )
 }
 
-export default MainPages
+export default MainPage
