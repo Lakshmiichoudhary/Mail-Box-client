@@ -68,20 +68,20 @@ const Login = () => {
                 {!IsLogin ? "Sign up" : "Sign In"}
             </h1>
         <div>
-        <input className='m-2 p-3 bg-blue-900'
+        <input className='m-2 p-3 bg-blue-900 text-white'
             ref={email}
             type='Email'
             placeholder='Email'/>
         </div>
         <div>
-        <input className='m-2 p-3 bg-blue-900'
+        <input className='m-2 p-3 bg-blue-900 text-white'
             ref={password}
             type='Password'
             placeholder='Password'/>
         </div>
         {!IsLogin && (
         <div>   
-        <input className='m-2 p-3 bg-blue-900'
+        <input className='m-2 p-3 bg-blue-900 text-white'
             ref={confirmPassword}
             type='Password'
             placeholder='Confirm Password'/>

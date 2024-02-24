@@ -1,38 +1,63 @@
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import {collection,addDoc} from '@firebase/firestore'
-import { db } from '../../Utils/Firebase';
+import CloseIcon from '@mui/icons-material/Close';
+import { useDispatch } from 'react-redux';
+import { closeCompose } from '../../Store/MailsSlice';
 
 const ComposeMail = () => {
   const [to,setTo] = useState('')
   const [subject,setSubject] = useState('')
   const [value, setValue] = useState('');
-
-  const mails = collection(db,"Emails")
-
+  const dispatch = useDispatch()
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!to || !subject || !value) {
-        return alert("All fields are required");
+      return alert("All fields are required");
     }
 
+    const currentTime = new Date();
     const mailData = {
-      to : to,
-      subject : subject,
-      value : value
+      to: to,
+      subject: subject,
+      value: value,
+      time: currentTime.getTime(),
+    };
+
+    try {
+      const response = await fetch('https://mailbox-a2e2c-default-rtdb.firebaseio.com/emails.json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(mailData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+
+      alert('Email sent successfully');
+      setTo('');
+      setSubject('');
+      setValue('');
+      dispatch(closeCompose());
+    } catch (error) {
+      console.error('Error sending email:', error);
     }
-
-    await addDoc(mails,mailData)
-      alert("Email sent sucessfully")
-
-      setTo("");
-      setSubject("");
-      setValue("");
   };
 
+  const handleClose = () => {
+    dispatch(closeCompose())
+  }
+
   return (
-    <div>
+    <div  className=' bg-white relative'>
+      <div className='p-2 bg-gray-700 text-white flex justify-between'>
+        <h1 className='p-2'>New Message</h1>
+        <CloseIcon className='m-2 mx-4 cursor-pointer' onClick={handleClose} />
+      </div>
       <div>
       <input className='w-full p-4 border-b-2 border-x-yellow-100' 
         type='email' 
@@ -45,10 +70,10 @@ const ComposeMail = () => {
         value={subject}
         onChange={(e) => setSubject(e.target.value)} />
       </div>
-      <div style={{ flex: '1', marginBottom: '60px' }}>
+      <div style={{ flex: '1', marginBottom: '55px' }}>
       <ReactQuill
         theme="snow"
-        className=" h-80"
+        className=" h-64"
         value={value}
         onChange={setValue}
       />
