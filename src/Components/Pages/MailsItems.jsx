@@ -9,19 +9,21 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 const MailsItems = () => {
 
   return (
-    <div className='p-2 h-16 w-[82vw] relative'>
-    <div className='flex justify-between border-b border-blue-200'>
-      <div className='m-2 mx-4'>
-      <CheckBoxOutlineBlankIcon />
-      <KeyboardArrowDownIcon />
-      <ReplayIcon className='mx-4' />
-      <MoreVertIcon className='mx-3' />
+    <div>
+      <div className='p-2 h-16 w-[82vw] '>
+      <div className='flex justify-between border-b border-blue-200'>
+        <div className='m-2 mx-4'>
+        <CheckBoxOutlineBlankIcon />
+        <KeyboardArrowDownIcon />
+        <ReplayIcon className='mx-4' />
+        <MoreVertIcon className='mx-3' />
+        </div>
+        <div className='m-2 mx-4'>
+          <ChevronLeftIcon />
+          <ChevronRightIcon />
+        </div>
       </div>
-      <div className='m-2 mx-4'>
-        <ChevronLeftIcon />
-        <ChevronRightIcon />
       </div>
-    </div>
     </div>
   
   )

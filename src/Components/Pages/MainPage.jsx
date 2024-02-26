@@ -2,6 +2,7 @@ import React from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Login from '../Auth/Login'
 import MailBoxPage from './MailBoxPage'
+import MailDetails from './MailDetails'
 
 const MainPage = () => {
 
@@ -13,8 +14,11 @@ const MainPage = () => {
         {
           path : '/mailBox',
           element : <MailBoxPage />
+        },
+        {
+          path : '/mailDetails',
+          element : <MailDetails />
         }
-
     ])
 
   return (
