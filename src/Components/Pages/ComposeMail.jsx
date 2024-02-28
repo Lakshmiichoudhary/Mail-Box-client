@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { closeCompose } from '../../Store/MailsSlice';
+import { usePost } from '../Hooks/usePostMails';
 
 const ComposeMail = () => {
-  const currentUserEmail = useSelector(state => state.user.email);
   const [to,setTo] = useState('')
   const [subject,setSubject] = useState('')
   const [value, setValue] = useState('');
   const dispatch = useDispatch()
+  const post = usePost()
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,46 +19,18 @@ const ComposeMail = () => {
       return alert("All fields are required");
     }
   
-    const currentTime = new Date();
-    const mailData = {
-      from: currentUserEmail, 
-      to: to,
-      subject: subject,
-      value: value,
-      time: currentTime.getTime(),
-    };
-  
-    try {
-      const response = await fetch('https://mailbox-a2e2c-default-rtdb.firebaseio.com/emails.json', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(mailData),
-      });
-  
-      const sentResponse = await fetch('https://mailbox-a2e2c-default-rtdb.firebaseio.com/sentEmails.json', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(mailData),
-      });
-  
-      if (!response.ok || !sentResponse.ok) {
-        throw new Error('Failed to send email');
-      }
-  
+    const emailSent = await post(to, subject, value);
+    if (emailSent) {
       alert('Email sent successfully');
       setTo('');
       setSubject('');
       setValue('');
       dispatch(closeCompose());
-    } catch (error) {
-      console.error('Error sending email:', error);
+    } else {
+      alert('Failed to send email. Please try again.');
     }
   };
-  
+
   const handleClose = () => {
     dispatch(closeCompose())
   }

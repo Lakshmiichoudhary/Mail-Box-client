@@ -1,47 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Header from '../Header/Header'
 import ComposeMail from './ComposeMail'
 import SideBar from './SideBar'
 import MailsItems from './MailsItems'
 import { useSelector } from 'react-redux'
 import Mails from './Mails'
+import { useFetchEmails } from '../Hooks/useFetchMails'
 
 const MailBoxPage = () => {
-  const  currentUser = useSelector(state => state.user);
+  const  {mails,unreadCount} = useFetchEmails()
   const composeOpen = useSelector(store => store.mails.showCompose)
-  const [mails, setMails] = useState([]);
-  const [unreadCount, setUnreadCount] = useState(0);
-
-  const fetchMails = async () => {
-    try {
-      const inboxResponse = await fetch('https://mailbox-a2e2c-default-rtdb.firebaseio.com/emails.json');
-      if (!inboxResponse.ok) {
-        throw new Error('Failed to fetch emails');
-      }
-      const inboxData = await inboxResponse.json();
-      const inboxMails = inboxData ? Object.entries(inboxData)
-        .filter(([id, mail]) => mail.to === currentUser.email)
-        .map(([id, mail]) => ({ id, ...mail, isRead: mail.isRead || false })) : [];
-
-      setMails(inboxMails);
-
-      const unread = inboxMails.filter(mail => !mail.isRead);
-      setUnreadCount(unread.length);
-    } catch (error) {
-      console.error('Error fetching emails:', error);
-    }
-  };
-
-  useEffect(() => {
-    const intervalId = setInterval(fetchMails, 2000);
-
-    return () => clearInterval(intervalId);
-  }, [currentUser]); 
   
   return (
     <div>
       <Header />
-      <div cl>  
+      <div>  
       <div className='flex absolute'> 
       <div>
         <SideBar unreadCount={unreadCount} />

@@ -1,33 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import SideBar from './SideBar';
 import MailsItems from './MailsItems';
 import Mails from './Mails';
-import { useSelector } from 'react-redux';
+import { useSentMail } from '../Hooks/UseSentMail';
+import ShimmerUI from '../../Utils/ShimmerUI';
 
 const Sentmail = () => {
-  const currentUser = useSelector(state => state.user);
-  const [sentMails, setSentMails] = useState([]);
-
-  useEffect(() => {
-    const fetchSentMails = async () => {
-      try {
-        const response = await fetch('https://mailbox-a2e2c-default-rtdb.firebaseio.com/sentEmails.json');
-        if (!response.ok) {
-          throw new Error('Failed to fetch sent emails');
-        }
-        const data = await response.json();
-        const sentMails = data ? Object.entries(data)
-          .filter(([id, mail]) => mail.from === currentUser.email)
-          .map(([id, mail]) => ({ id, ...mail})) : [];
-  
-        setSentMails(sentMails);
-      } catch (error) {
-        console.error('Error fetching sent emails:', error);
-      }
-    };
-  
-    fetchSentMails();
-  }, [currentUser]);
+  const {sentMails} = useSentMail()
 
   return (
     <div>
@@ -43,16 +22,20 @@ const Sentmail = () => {
         <div className=''>
           <div>
             <MailsItems />
-            {sentMails.map((mail) => (
-              <Mails
-                key={mail.id}
-                id={mail.id}
-                name={mail.to} 
-                subject={mail.subject}
-                message={mail.value} 
-                time={new Date(mail.time).toLocaleString()}
-              />
-            ))}
+            {sentMails.length === 0 ? (
+              <ShimmerUI />
+            ) : (
+              sentMails.map((mail) => (
+                <Mails
+                  key={mail.id}
+                  id={mail.id}
+                  name={mail.to} 
+                  subject={mail.subject}
+                  message={mail.value} 
+                  time={new Date(mail.time).toLocaleString()}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>

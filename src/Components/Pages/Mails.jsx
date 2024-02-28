@@ -17,7 +17,7 @@ const Mails = ({ id,name, subject, message, time, isRead }) => {
   const [read, setRead] = useState(isRead);
 
   const mailDetail = () => {
-    console.log("Mail detail clicked:", id);
+    //console.log("Mail detail", id);
     dispatch(openMail({
       id,
       name,

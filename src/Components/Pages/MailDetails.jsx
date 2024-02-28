@@ -10,32 +10,19 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
 import SideBar from './SideBar';
 import { useSelector } from 'react-redux'
+import { useDeleteMail } from '../Hooks/useDeleteMails';
 
 const MailDetails = () => {
   const mail = useSelector(store => store.mails.seleteMail)
   const navigate = useNavigate()
+  const deleteMail = useDeleteMail(mail)
 
   const handleClose = () => {
       navigate("/mailBox")
   }
  
   const handleDelete = async () => {
-    try {
-      const response = await fetch(`https://mailbox-a2e2c-default-rtdb.firebaseio.com/emails/${mail.id}.json`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete mail');
-      }
-      //console.log('Mail deleted successfully');
-      handleClose(); 
-    } catch (error) {
-      console.error('Error deleting mail:', error);
-    }
+    deleteMail(handleClose)
   };
   
   return (
