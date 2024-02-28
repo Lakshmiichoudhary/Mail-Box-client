@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { closeCompose } from '../../Store/MailsSlice';
 
 const ComposeMail = () => {
+  const currentUserEmail = useSelector(state => state.user.email);
   const [to,setTo] = useState('')
   const [subject,setSubject] = useState('')
   const [value, setValue] = useState('');
@@ -16,15 +17,16 @@ const ComposeMail = () => {
     if (!to || !subject || !value) {
       return alert("All fields are required");
     }
-
+  
     const currentTime = new Date();
     const mailData = {
+      from: currentUserEmail, 
       to: to,
       subject: subject,
       value: value,
       time: currentTime.getTime(),
     };
-
+  
     try {
       const response = await fetch('https://mailbox-a2e2c-default-rtdb.firebaseio.com/emails.json', {
         method: 'POST',
@@ -33,11 +35,19 @@ const ComposeMail = () => {
         },
         body: JSON.stringify(mailData),
       });
-
-      if (!response.ok) {
+  
+      const sentResponse = await fetch('https://mailbox-a2e2c-default-rtdb.firebaseio.com/sentEmails.json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(mailData),
+      });
+  
+      if (!response.ok || !sentResponse.ok) {
         throw new Error('Failed to send email');
       }
-
+  
       alert('Email sent successfully');
       setTo('');
       setSubject('');
@@ -47,11 +57,11 @@ const ComposeMail = () => {
       console.error('Error sending email:', error);
     }
   };
-
+  
   const handleClose = () => {
     dispatch(closeCompose())
   }
-
+  
   return (
     <div  className=' bg-white relative'>
       <div className='p-2 bg-gray-700 text-white flex justify-between'>

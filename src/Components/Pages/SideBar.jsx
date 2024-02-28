@@ -1,12 +1,22 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { openCompose } from '../../Store/MailsSlice'
+import { useNavigate } from 'react-router-dom'
 
-const SideBar = () => {
+const SideBar = ({ unreadCount }) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleCompose = () => {
         dispatch(openCompose())
+    }
+
+    const handleSentMail = () => {
+        navigate("/sentMail");
+    }
+
+    const handleInboxMail = () => {
+        navigate('/mailBox');
     }
     
   return (
@@ -16,8 +26,12 @@ const SideBar = () => {
             ➕ Compose
         </button>
         <div className=' cursor-pointer'>
-            <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100'>
-                Inbox
+            <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100 flex'
+                onClick={handleInboxMail}>
+                Inbox 
+                <p className=' mx-24 font-bold text-red-700'>
+                    {unreadCount}
+                </p>
             </h1>
             <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100'>
                 Unread
@@ -25,7 +39,8 @@ const SideBar = () => {
             <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100'>
                 Draft
             </h1>
-            <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100'>
+            <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100'
+                onClick={handleSentMail}>
                 Sent
             </h1>
             <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100'>

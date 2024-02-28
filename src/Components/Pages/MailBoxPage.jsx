@@ -7,26 +7,34 @@ import { useSelector } from 'react-redux'
 import Mails from './Mails'
 
 const MailBoxPage = () => {
+  const  currentUser = useSelector(state => state.user);
   const composeOpen = useSelector(store => store.mails.showCompose)
   const [mails, setMails] = useState([]);
-  
+  const [unreadCount, setUnreadCount] = useState(0);
+
   useEffect(() => {
     const fetchMails = async () => {
       try {
-        const response = await fetch('https://mailbox-a2e2c-default-rtdb.firebaseio.com/emails.json');
-        if (!response.ok) {
+        const inboxResponse = await fetch('https://mailbox-a2e2c-default-rtdb.firebaseio.com/emails.json');
+        if (!inboxResponse.ok) {
           throw new Error('Failed to fetch emails');
         }
-        const data = await response.json();
-        const fetchedMails = Object.entries(data).map(([id, mail]) => ({ id, ...mail }));;
-        setMails(fetchedMails);
+        const inboxData = await inboxResponse.json();
+        const inboxMails = inboxData ? Object.entries(inboxData)
+          .filter(([id, mail]) => mail.to === currentUser.email)
+          .map(([id, mail]) => ({ id, ...mail, isRead: mail.isRead || false })) : [];
+
+        setMails(inboxMails);
+
+        const unread = inboxMails.filter(mail => !mail.isRead);
+        setUnreadCount(unread.length);
       } catch (error) {
         console.error('Error fetching emails:', error);
       }
     };
 
     fetchMails();
-  }, [mails]); 
+  }, [currentUser]);
 
   return (
     <div>
@@ -34,7 +42,7 @@ const MailBoxPage = () => {
       <div cl>  
       <div className='flex absolute'> 
       <div>
-        <SideBar />
+        <SideBar unreadCount={unreadCount} />
       </div>
       <div className=''>
       <div >
@@ -43,10 +51,12 @@ const MailBoxPage = () => {
               <Mails
                 key={mail.id}
                 id={mail.id}  
-                name={mail.to}
+                name={mail.from}
                 subject={mail.subject}
                 message={mail.value}
-                time={new Date(mail.time).toLocaleString()} />
+                time={new Date(mail.time).toLocaleString()}
+                isRead={mail.isRead}
+               />
             ))}
       </div>
       </div> 

@@ -38,7 +38,6 @@ const MailDetails = () => {
     }
   };
   
-
   return (
     <div>
       <div className='flex justify-between bg-blue-900 '>

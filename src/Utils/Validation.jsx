@@ -1,4 +1,3 @@
-
 const validation = (email,password,confirmPassword,isSignUp) => {
     if (!email || !password) {
         return "Email and password are required";
@@ -18,8 +17,6 @@ const validation = (email,password,confirmPassword,isSignUp) => {
     if(isSignUp && password !== confirmPassword) return "password do not match"
 
     return null
-
-
 }
 
 export default validation
