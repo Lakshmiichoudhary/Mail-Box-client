@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { openCompose } from '../../Store/MailsSlice'
 import { useNavigate } from 'react-router-dom'
 
-const SideBar = ({ unreadCount }) => {
+const SideBar = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -30,7 +30,7 @@ const SideBar = ({ unreadCount }) => {
                 onClick={handleInboxMail}>
                 Inbox 
                 <p className=' mx-24 font-bold text-red-700'>
-                    {unreadCount}
+                    0
                 </p>
             </h1>
             <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100'>
@@ -50,7 +50,7 @@ const SideBar = ({ unreadCount }) => {
                 Spam
             </h1>
             <h1 className='my-3 p-2 hover:bg-blue-300 border-b-2 border-x-blue-100'>
-                Deleted Items
+                More Info
             </h1>
         </div>
     </div>

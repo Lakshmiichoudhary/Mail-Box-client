@@ -6,6 +6,7 @@ import MailsItems from './MailsItems'
 import { useSelector } from 'react-redux'
 import Mails from './Mails'
 import { useFetchEmails } from '../Hooks/useFetchMails'
+import ShimmerUI from '../../Utils/ShimmerUI'
 
 const MailBoxPage = () => {
   const  {mails,unreadCount} = useFetchEmails()
@@ -22,7 +23,7 @@ const MailBoxPage = () => {
       <div className=''>
       <div >
         <MailsItems />
-        {mails.map((mail) => (
+        {mails.length === 0 ? (<ShimmerUI />) : (mails.map((mail) => (
               <Mails
                 key={mail.id}
                 id={mail.id}  
@@ -30,9 +31,9 @@ const MailBoxPage = () => {
                 subject={mail.subject}
                 message={mail.value}
                 time={new Date(mail.time).toLocaleString()}
-                isRead={mail.isRead}
+                read={mail.read}
                />
-            ))}
+            )))}
       </div>
       </div> 
       </div> 

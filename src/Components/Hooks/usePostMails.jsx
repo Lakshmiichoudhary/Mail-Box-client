@@ -11,6 +11,7 @@ export const usePost = () => {
         subject: subject,
         value: value,
         time: currentTime.getTime(),
+        read: false,
       };
       //console.log(mailData)
   

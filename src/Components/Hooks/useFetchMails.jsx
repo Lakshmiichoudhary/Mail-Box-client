@@ -27,7 +27,7 @@ export const useFetchEmails = () => {
       }
     };
 
-    const intervalId = setInterval(fetchMails, 2000);
+    const intervalId = setInterval(fetchMails, 1000);
 
     return () => clearInterval(intervalId);
   }, [currentUser]);

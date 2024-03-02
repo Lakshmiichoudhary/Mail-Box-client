@@ -10,11 +10,10 @@ const stripHtmlTags = (html) => {
   return tempElement.textContent || tempElement.innerText || '';
 };
 
-const Mails = ({ id,name, subject, message, time, isRead }) => {
+const Mails = ({ id,name, subject, message, time, read }) => {
   const strippedMessage = stripHtmlTags(message);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [read, setRead] = useState(isRead);
 
   const mailDetail = () => {
     //console.log("Mail detail", id);
@@ -28,12 +27,9 @@ const Mails = ({ id,name, subject, message, time, isRead }) => {
     navigate('/mailDetails');
   };
 
-  const handleMailClick = () => {
-    if (!read) {
-      dispatch(markAsRead(id)); 
-      setRead(true); 
-    }
+  const handleMailClick = async () => {
     mailDetail();
+    dispatch(markAsRead(id)); 
   };
 
   return (
@@ -41,7 +37,7 @@ const Mails = ({ id,name, subject, message, time, isRead }) => {
       <div className='flex justify-between p-3 mx-3 cursor-pointer border-b border-blue-200' onClick={handleMailClick}>
         <div className='flex'>
           <CheckBoxOutlineBlankIcon />
-          <div className={`w-6 h-6 rounded-full border-2 mx-4 border-black ${read ? "bg-white" : "bg-blue-600"}`}></div>
+          <div className={`w-6 h-6 rounded-full border-2 mx-4 border-black ${!read ? "bg-white" : "bg-blue-600"}`}></div>
           <h3 className='font-bold mx-4'>{name}</h3>
         </div>
         <div className='max-w-lg'>
