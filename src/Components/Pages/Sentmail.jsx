@@ -3,15 +3,17 @@ import SideBar from './SideBar';
 import MailsItems from './MailsItems';
 import Mails from './Mails';
 import { useSentMail } from '../Hooks/UseSentMail';
-import ShimmerUI from '../../Utils/ShimmerUI';
+import ComposeMail from './ComposeMail';
+import { useSelector } from 'react-redux';
 
 const Sentmail = () => {
   const {sentMails} = useSentMail()
+  const composeOpen = useSelector(store => store.mails.showCompose)
 
   return (
     <div>
       <div className='flex justify-between bg-blue-900 '>
-        <h1 className='p-4 text-2xl text-white'>
+        <h1 className='p-4 text-2xl text-white lg:mx-16'>
           Mail Box📩
         </h1>
       </div>
@@ -19,13 +21,10 @@ const Sentmail = () => {
         <div>
           <SideBar />
         </div>
-        <div className=''>
+        <div>
           <div>
             <MailsItems />
-            {sentMails.length === 0 ? (
-              <ShimmerUI />
-            ) : (
-              sentMails.map((mail) => (
+            {sentMails.map((mail) => (
                 <Mails
                   key={mail.id}
                   id={mail.id}
@@ -34,10 +33,12 @@ const Sentmail = () => {
                   message={mail.value} 
                   time={new Date(mail.time).toLocaleString()}
                 />
-              ))
-            )}
+              ))}
           </div>
         </div>
+        <div className='p-2 absolute'>
+        {composeOpen && <ComposeMail />}
+      </div>
       </div>
     </div>
   );

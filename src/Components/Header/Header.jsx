@@ -33,12 +33,12 @@ const Header = () => {
   }
   
   return (
-    <div className='flex justify-between bg-blue-900 '>
-        <h1 className='p-4 text-2xl text-white'>
+    <div className='flex justify-between bg-blue-900 w-full'>
+        <h1 className='p-4 text-2xl text-white lg:mx-16'>
           Mail Box📩
         </h1>
-        {user && <div className='p-6 mx-4 cursor-pointer'>
-          <LogoutSharpIcon onClick={handleSignout} />
+        {user && <div className='p-6 mx-8 cursor-pointer text-white' onClick={handleSignout}>
+          <LogoutSharpIcon /> Logout
         </div>}
     </div>
   )

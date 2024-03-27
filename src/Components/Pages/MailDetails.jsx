@@ -28,7 +28,7 @@ const MailDetails = () => {
   return (
     <div>
       <div className='flex justify-between bg-blue-900 '>
-        <h1 className='p-4 text-2xl text-white'>
+        <h1 className='p-4 text-2xl lg:mx-16 text-white'>
           Mail Box📩
         </h1>
       </div>
@@ -36,7 +36,7 @@ const MailDetails = () => {
       <div>
         <SideBar/>
       </div>
-    <div className='bg-white border-2 border-blue-300 rounded-lg h-screen w-screen'>
+    <div className='bg-white border-2 border-blue-300 rounded-lg h-screen w-screen '>
       <div className='flex justify-between m-2 p-2 border-b border-blue-300'>
         <div className='cursor-pointer' >
           <ArrowBackIcon onClick={handleClose} /> Back

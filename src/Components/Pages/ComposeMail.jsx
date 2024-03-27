@@ -5,12 +5,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from 'react-redux';
 import { closeCompose } from '../../Store/MailsSlice';
 import { usePost } from '../Hooks/usePostMails';
+import { useNavigate } from 'react-router-dom';
 
 const ComposeMail = () => {
   const [to,setTo] = useState('')
   const [subject,setSubject] = useState('')
   const [value, setValue] = useState('');
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const post = usePost()
   
   const handleSubmit = async (e) => {
@@ -26,6 +28,7 @@ const ComposeMail = () => {
       setSubject('');
       setValue('');
       dispatch(closeCompose());
+      navigate('/sentMail');
     } else {
       alert('Failed to send email. Please try again.');
     }
@@ -42,7 +45,7 @@ const ComposeMail = () => {
         <CloseIcon className='m-2 mx-4 cursor-pointer' onClick={handleClose} />
       </div>
       <div>
-      <input className='w-full p-4 border-b-2 border-x-yellow-100' 
+      <input className=' p-4 border-b-2 border-x-yellow-100' 
         type='email' 
         placeholder='To :'
         value={to}
@@ -56,7 +59,7 @@ const ComposeMail = () => {
       <div style={{ flex: '1', marginBottom: '55px' }}>
       <ReactQuill
         theme="snow"
-        className=" h-64"
+        className="lg:h-64"
         value={value}
         onChange={setValue}
       />

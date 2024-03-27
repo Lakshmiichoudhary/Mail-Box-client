@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { openCompose } from '../../Store/MailsSlice'
 import { useNavigate } from 'react-router-dom'
 
-const SideBar = () => {
+const SideBar = ({ unreadCount }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -20,8 +20,8 @@ const SideBar = () => {
     }
     
   return (
-    <div className='p-6 h-screen w-56 bg-gray-300'>
-        <button className='p-3 bg-blue-500 rounded-full font-bold text-white hover:text-black'
+    <div className='p-6 h-screen lg:w-56 w-28 bg-gray-300'>
+        <button className='lg:p-3 lg:bg-blue-500 p-2 lg:rounded-full rounded-lg font-bold lg:text-white hover:text-black'
             onClick={handleCompose}>
             ➕ Compose
         </button>
@@ -29,8 +29,8 @@ const SideBar = () => {
             <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100 flex'
                 onClick={handleInboxMail}>
                 Inbox 
-                <p className=' mx-24 font-bold text-red-700'>
-                    0
+                <p className='lg:mx-24 mx-3 font-bold text-red-700'>
+                    {unreadCount }
                 </p>
             </h1>
             <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100'>
@@ -41,7 +41,7 @@ const SideBar = () => {
             </h1>
             <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100'
                 onClick={handleSentMail}>
-                Sent
+                Sent 
             </h1>
             <h1 className='my-3 p-2  hover:bg-blue-300 border-b-2 border-x-blue-100'>
                 Archive

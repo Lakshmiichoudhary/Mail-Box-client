@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -10,7 +10,7 @@ const MailsItems = () => {
 
   return (
     <div>
-      <div className='p-2 h-16 w-[82vw] '>
+      <div className='p-2 h-16 lg:w-[82vw] '>
       <div className='flex justify-between border-b border-blue-200'>
         <div className='m-2 mx-4'>
         <CheckBoxOutlineBlankIcon />
